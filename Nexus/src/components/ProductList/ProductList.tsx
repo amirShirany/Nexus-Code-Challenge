@@ -38,7 +38,7 @@ export default function ProductList() {
   }
 
   if (!data || !allItems.length) {
-    return <div className={styles.loader}>در حال بارگذاری...</div>
+    return <div className={styles.loader}>...در حال بارگذاری</div>
   }
 
   return (
@@ -51,7 +51,7 @@ export default function ProductList() {
         </TransitionGroup>
         {hasNextPage && (
           <div className={styles.loadMore}>
-            {isFetchingNextPage ? "در حال بارگذاری موارد بیشتر..." : ""}
+            {isFetchingNextPage ? "...در حال بارگذاری موارد بیشتر" : ""}
           </div>
         )}
       </div>

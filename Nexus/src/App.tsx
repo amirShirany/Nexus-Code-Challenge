@@ -27,11 +27,11 @@ export default function App() {
             <NavLink to="/cart" className={navLinkClass}>
               سبد خرید
             </NavLink>
-            <NavLink to="/cart" className={styles.cartButton}>
-              مشاهده سبد
+            <span className={styles.cartButton}>
+               اطلاعات سبد خرید
               <span className={styles.badge}>{totalCount}</span>
-              <span>${totalPrice.toFixed(2)}</span>
-            </NavLink>
+              <span>${totalPrice.toFixed(2)} : مبلغ</span>
+            </span>
           </nav>
         </header>
 
