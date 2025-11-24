@@ -5,10 +5,11 @@ import ProductCard from "../ProductCard/ProductCard"
 import styles from "./ProductList.module.scss"
 
 export default function ProductList() {
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useProducts()
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, error } = useProducts()
   const parentRef = useRef<HTMLDivElement | null>(null)
 
-  const allItems = data?.pages.flat() ?? []
+  // تغییر بر اساس نوع برگرداندن داده useProducts
+  const allItems = data?.pages?.flat?.() ?? []
 
   const rowVirtualizer = useVirtualizer({
     count: hasNextPage ? allItems.length + 1 : allItems.length,
@@ -29,6 +30,18 @@ export default function ProductList() {
       fetchNextPage()
     }
   }, [rowVirtualizer.getVirtualItems(), allItems.length, hasNextPage])
+
+  if (error) {
+    return (
+      <div className={styles.loader}>خطا در بارگذاری اطلاعات</div>
+    )
+  }
+
+  if (!data || !allItems.length) {
+    return (
+      <div className={styles.loader}>در حال بارگذاری...</div>
+    )
+  }
 
   return (
     <div ref={parentRef} className={styles.container}>

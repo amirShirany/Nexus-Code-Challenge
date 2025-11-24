@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import api from "../api/axios";
 import type { Product } from "../types/product";
+import api from "../api/axios";
 
 const PAGE_SIZE = 6;
 
