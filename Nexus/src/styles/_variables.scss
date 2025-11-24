@@ -1,4 +1,21 @@
 $primary: #0b84ff;
-$bg: #f7f9fc;
+$secondary: #ff7a18;
+$bg: #f4f7fb;
+$surface: #ffffff;
 $card-bg: #ffffff;
+$text-primary: #0f172a;
+$text-muted: #5f6b7c;
+$border: #e3e8f0;
+$radius-sm: 8px;
 $radius: 12px;
+$radius-lg: 20px;
+$shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.08);
+$shadow-card: 0 12px 28px rgba(15, 23, 42, 0.12);
+$transition: 0.25s ease;
+
+$breakpoints: (
+  mobile: 480px,
+  tablet: 768px,
+  laptop: 1024px,
+  desktop: 1280px,
+);

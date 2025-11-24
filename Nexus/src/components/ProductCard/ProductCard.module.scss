@@ -1,47 +1,158 @@
+@use "sass:color";
+@use "../../styles/variables" as vars;
+@use "../../styles/mixins" as mixins;
+
 .card {
   display: flex;
   flex-direction: column;
-  padding: 12px;
-  border-radius: 10px;
-  background: white;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  gap: 1rem;
+  min-height: 310px;
+  padding: 1.5rem;
+  border-radius: vars.$radius-lg;
+  background: vars.$surface;
+  border: 1px solid vars.$border;
+  box-shadow: vars.$shadow-soft;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  @include mixins.interactive(transform, box-shadow, border-color);
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(11, 132, 255, 0.08),
+      rgba(255, 122, 24, 0.05)
+    );
+    opacity: 0;
+    z-index: -1;
+    transition: opacity vars.$transition;
+  }
+
   &:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+    // transform: translateY(-8px);
+    // border-color: color.scale(vars.$primary, $lightness: 25%);
+    // box-shadow: vars.$shadow-card;
+
+    &::before {
+      opacity: 1;
+    }
   }
+}
+
+.imageWrap {
+  height: 140px;
+  border-radius: vars.$radius;
+  background: radial-gradient(
+      circle at 30% 30%,
+      rgba(11, 132, 255, 0.18),
+      transparent 55%
+    ),
+    vars.$bg;
+  display: grid;
+  place-items: center;
+  padding: 1.25rem;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+
+  img {
+    max-width: 50%;
+    max-height: 50%;
+    object-fit: contain;
+    transition: transform vars.$transition;
+  }
+
+  // .card:hover & img {
+  //   transform: translateY(-4px) scale(1.02);
+  // }
+}
+
+.title {
+  font-size: 1.05rem;
+  color: vars.$text-primary;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+  min-height: 2.6rem;
+}
+
+.bottom {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+
+  .price {
+    font-size: 1.15rem;
+    font-weight: 800;
+    background: linear-gradient(120deg, vars.$primary, vars.$secondary);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .addBtn {
+    padding: 0.65rem 1.25rem;
+    border-radius: 999px;
+    border: none;
+    background: linear-gradient(
+      110deg,
+      vars.$primary,
+      color.scale(vars.$primary, $lightness: -8%)
+    );
+    color: #fff;
+    font-weight: 600;
+    box-shadow: 0 12px 24px rgba(11, 132, 255, 0.25);
+    position: relative;
+    overflow: hidden;
+    @include mixins.interactive(transform, box-shadow, background);
+
+    // &:hover {
+    //   transform: translateY(-1px) scale(1.02);
+    //   box-shadow: 0 16px 30px rgba(11, 132, 255, 0.3);
+    // }
+
+    &:active {
+      transform: scale(0.98);
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.18),
+        transparent
+      );
+      opacity: 0;
+      transition: opacity vars.$transition;
+    }
+
+    &:hover::after {
+      opacity: 1;
+    }
+  }
+}
+
+@include mixins.respond(mobile) {
+  .card {
+    padding: 1.1rem;
+  }
+
   .imageWrap {
-    height: 160px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    img {
-      max-height: 100%;
-      max-width: 100%;
-      object-fit: contain;
-    }
+    height: 140px;
   }
-  .title {
-    font-size: 14px;
-    margin: 8px 0;
-    flex: 1;
-  }
+
   .bottom {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    .price {
-      font-weight: 700;
-    }
+    flex-direction: column;
+    align-items: flex-start;
+
     .addBtn {
-      padding: 8px 10px;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-      transition: transform 0.12s ease;
-      &:active {
-        transform: scale(0.98);
-      }
+      width: 100%;
+      text-align: center;
     }
   }
 }

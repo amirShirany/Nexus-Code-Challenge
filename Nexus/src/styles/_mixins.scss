@@ -1,0 +1,66 @@
+@use "sass:map";
+@use "sass:list";
+@use "sass:color";
+@use "./variables" as vars;
+
+@mixin respond($breakpoint) {
+  $value: map.get(vars.$breakpoints, $breakpoint);
+  @if $value {
+    @media (max-width: $value) {
+      @content;
+    }
+  } @else {
+    @warn "Breakpoint `#{$breakpoint}` not found in vars.$breakpoints.";
+  }
+}
+
+@mixin card($padding: 1.5rem) {
+  background: vars.$surface;
+  border-radius: vars.$radius;
+  box-shadow: vars.$shadow-soft;
+  padding: $padding;
+}
+
+@mixin scrollbar($width: 8px, $thumb: rgba(15, 23, 42, 0.16)) {
+  &::-webkit-scrollbar {
+    width: $width;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: $thumb;
+    border-radius: vars.$radius-sm;
+  }
+}
+
+@mixin button-reset {
+  border: none;
+  background: none;
+  font: inherit;
+  color: inherit;
+  padding: 0;
+  cursor: pointer;
+}
+
+@mixin interactive($props...) {
+  @if list.length($props) == 0 {
+    transition: all vars.$transition;
+  } @else {
+    $transitions: ();
+    @each $prop in $props {
+      $transitions: list.append($transitions, #{$prop} vars.$transition, comma);
+    }
+    transition: $transitions;
+  }
+}
+
+@mixin fade-in($duration: 0.4s, $translate: 15px) {
+  opacity: 0;
+  transform: translateY($translate);
+  animation: fade-in $duration ease forwards;
+}
+
+@keyframes fade-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

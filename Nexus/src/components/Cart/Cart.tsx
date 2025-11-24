@@ -1,16 +1,22 @@
 import { useCart } from "../../store/useCart"
 import styles from "./Cart.module.scss"
 
-export default function Cart() {
+type CartProps = {
+  mode?: "floating" | "page"
+}
+
+export default function Cart({ mode = "floating" }: CartProps) {
   const items = useCart((s) => s.items)
   const totalPrice = useCart((s) => s.totalPrice())
   const increment = useCart((s) => s.increment)
   const decrement = useCart((s) => s.decrement)
   const remove = useCart((s) => s.removeFromCart)
   const clear = useCart((s) => s.clear)
+  const containerClass =
+    mode === "page" ? `${styles.cart} ${styles.page}` : styles.cart
 
   return (
-    <aside className={styles.cart}>
+    <aside className={containerClass}>
       <h3>سبد خرید ({items.length})</h3>
       <div className={styles.items}>
         {items.map((it) => (
@@ -23,7 +29,9 @@ export default function Cart() {
                 <button onClick={() => decrement(it.id)}>-</button>
                 <span>{it.quantity}</span>
                 <button onClick={() => increment(it.id)}>+</button>
-                <button onClick={() => remove(it.id)}>حذف</button>
+                <button className={styles.remove} onClick={() => remove(it.id)}>
+                  حذف
+                </button>
               </div>
             </div>
           </div>
@@ -32,13 +40,15 @@ export default function Cart() {
 
       <div className={styles.footer}>
         <div>مجموع: ${totalPrice.toFixed(2)}</div>
-        <div>
+        <div className={styles.actions}>
           <button
             onClick={() => alert("پرداخت (شبیه‌سازی)")}
             className={styles.checkout}>
             تسویه حساب
           </button>
-          <button onClick={() => clear()}>پاک کردن سبد</button>
+          <button className={styles.clear} onClick={() => clear()}>
+            پاک کردن سبد
+          </button>
         </div>
       </div>
     </aside>

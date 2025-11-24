@@ -1,76 +1,72 @@
 import { useEffect, useRef } from "react"
+import type { Product } from "../../types/product"
+import type { InfiniteData } from "@tanstack/react-query"
+import { CSSTransition, TransitionGroup } from "react-transition-group"
 import { useProducts } from "../../hooks/useProducts"
-import { useVirtualizer } from "@tanstack/react-virtual"
 import ProductCard from "../ProductCard/ProductCard"
 import styles from "./ProductList.module.scss"
 
 export default function ProductList() {
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, error } = useProducts()
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, error } =
+    useProducts()
   const parentRef = useRef<HTMLDivElement | null>(null)
-
-  // تغییر بر اساس نوع برگرداندن داده useProducts
-  const allItems = data?.pages?.flat?.() ?? []
-
-  const rowVirtualizer = useVirtualizer({
-    count: hasNextPage ? allItems.length + 1 : allItems.length,
-    getScrollElement: () => parentRef.current,
-    estimateSize: () => 340,
-    overscan: 3,
-  })
+  const infiniteData = data as InfiniteData<Product[]> | Product[] | undefined
+  const allItems: Product[] = Array.isArray(infiniteData)
+    ? infiniteData
+    : infiniteData?.pages?.flat() ?? []
 
   useEffect(() => {
-    const last = rowVirtualizer.getVirtualItems().slice(-1)[0]
-    if (!last) return
+    const el = parentRef.current
+    if (!el) return
 
-    if (
-      last.index >= allItems.length - 1 &&
-      hasNextPage &&
-      !isFetchingNextPage
-    ) {
-      fetchNextPage()
+    const handleScroll = () => {
+      if (
+        hasNextPage &&
+        !isFetchingNextPage &&
+        el.scrollHeight - el.scrollTop - el.clientHeight < 320
+      ) {
+        fetchNextPage()
+      }
     }
-  }, [rowVirtualizer.getVirtualItems(), allItems.length, hasNextPage])
+
+    el.addEventListener("scroll", handleScroll)
+    return () => el.removeEventListener("scroll", handleScroll)
+  }, [fetchNextPage, hasNextPage, isFetchingNextPage])
 
   if (error) {
-    return (
-      <div className={styles.loader}>خطا در بارگذاری اطلاعات</div>
-    )
+    return <div className={styles.loader}>خطا در بارگذاری اطلاعات</div>
   }
 
   if (!data || !allItems.length) {
-    return (
-      <div className={styles.loader}>در حال بارگذاری...</div>
-    )
+    return <div className={styles.loader}>در حال بارگذاری...</div>
   }
 
   return (
     <div ref={parentRef} className={styles.container}>
-      <div
-        className={styles.inner}
-        style={{ height: rowVirtualizer.getTotalSize() }}>
-        {rowVirtualizer.getVirtualItems().map((virtualRow) => {
-          const item = allItems[virtualRow.index]
-
-          return (
-            <div
-              key={virtualRow.key}
-              className={styles.row}
-              style={{ transform: `translateY(${virtualRow.start}px)` }}>
-              {item ? (
-                <ProductCard product={item} />
-              ) : (
-                hasNextPage && (
-                  <div className={styles.loader}>در حال بارگذاری...</div>
-                )
-              )}
-            </div>
-          )
-        })}
+      <div className={styles.inner}>
+        <TransitionGroup component="div" className={styles.grid}>
+          {allItems.map((item) => (
+            <AnimatedProductCard key={item.id} product={item} />
+          ))}
+        </TransitionGroup>
+        {hasNextPage && (
+          <div className={styles.loadMore}>
+            {isFetchingNextPage ? "در حال بارگذاری موارد بیشتر..." : ""}
+          </div>
+        )}
       </div>
-
-      {isFetchingNextPage && (
-        <div className={styles.loadingMore}>در حال بارگذاری موارد بیشتر...</div>
-      )}
     </div>
+  )
+}
+
+function AnimatedProductCard({ product }: { product: Product }) {
+  const nodeRef = useRef<HTMLDivElement>(null)
+
+  return (
+    <CSSTransition nodeRef={nodeRef} timeout={480} classNames="fade-in-product">
+      <div ref={nodeRef} className={styles.cardShell}>
+        <ProductCard product={product} />
+      </div>
+    </CSSTransition>
   )
 }

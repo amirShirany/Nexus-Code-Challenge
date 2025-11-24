@@ -1,202 +1,201 @@
+@use "sass:color";
+@use "../../styles/variables" as vars;
+@use "../../styles/mixins" as mixins;
+
 .cart {
   position: fixed;
-  right: 20px;
-  bottom: 20px;
-  width: 320px;
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
-  padding: 16px;
+  right: clamp(12px, 3vw, 28px);
+  bottom: clamp(12px, 3vw, 28px);
+  width: clamp(280px, 28vw, 360px);
+  max-height: 82vh;
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  z-index: 999;
-  max-height: 80vh;
+  gap: 1.25rem;
+  z-index: 10;
+  background: vars.$surface;
+  border-radius: vars.$radius-lg;
+  box-shadow: vars.$shadow-card;
+  padding: 1.5rem;
+  @include mixins.interactive(box-shadow, transform);
 
   h3 {
     margin: 0;
-    font-size: 18px;
+    font-size: 1.1rem;
     font-weight: 700;
-    color: #2294ff;
-    text-shadow: 0 2px 8px rgba(255, 87, 34, 0.16);
+    color: vars.$primary;
     letter-spacing: 0.5px;
+  }
+
+  @include mixins.respond(mobile) {
+    position: static;
+    width: 100%;
+    max-width: none;
+    padding: 1rem;
+    border-radius: vars.$radius;
+  }
+
+  &.page {
+    position: static;
+    inset: unset;
+    width: min(720px, 100%);
+    max-height: none;
+    margin: 0 auto;
+    box-shadow: 0 30px 60px rgba(15, 23, 42, 0.12);
+    border: 1px solid vars.$border;
+
+    h3 {
+      font-size: 1.35rem;
+    }
   }
 }
 
 .items {
   overflow-y: auto;
   max-height: 55vh;
-  padding-right: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  @include mixins.scrollbar(6px);
 
-  /* اسکرول بار نرم‌تر */
-  &::-webkit-scrollbar {
-    width: 6px;
-  }
-  &::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 6px;
+  .page & {
+    max-height: none;
   }
 }
 
 .item {
   display: flex;
-  gap: 12px;
-  padding: 12px 0;
-  border-bottom: 1px solid #e3e8f0;
-  background: #f7fafc;
-  border-radius: 10px;
-  margin-bottom: 10px;
-  box-shadow: 0 2px 10px rgba(34, 60, 80, 0.07);
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: vars.$radius;
+  background: vars.$bg;
+  border: 1px solid vars.$border;
+  box-shadow: vars.$shadow-soft;
+  @include mixins.interactive(box-shadow, transform);
 
-  &:last-child {
-    border-bottom: none;
-    margin-bottom: 0;
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 30px rgba(15, 23, 42, 0.12);
   }
 
   img {
-    width: 60px;
-    height: 60px;
+    width: 70px;
+    height: 70px;
     object-fit: contain;
-    background: #fff;
-    border: 1px solid #e3e8f0;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(34, 60, 80, 0.06);
-    padding: 3px;
+    padding: 0.4rem;
+    border-radius: vars.$radius-sm;
+    border: 1px solid vars.$border;
+    background: vars.$surface;
   }
 }
 
 .meta {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  flex: 1;
+  justify-content: center;
+  gap: 0.35rem;
 
   > div:first-child {
-    font-size: 14px;
+    font-size: 0.95rem;
     font-weight: 600;
-    line-height: 1.3;
-    color: #1757a6;
-    text-shadow: 0 1px 2px #f0f2fa77;
+    color: vars.$text-primary;
   }
 
   > div:nth-child(2) {
-    font-weight: bold;
-    color: #3066be;
+    font-weight: 700;
+    color: vars.$primary;
   }
 }
 
 .controls {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
 
   button {
-    padding: 3px 10px;
-    background: #fff;
-    border: 1px solid #e5e7eb;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.13s, box-shadow 0.13s, border 0.13s;
-    font-size: 13px;
-    color: #444;
-    box-shadow: 0 1.5px 3px rgba(35, 38, 59, 0.06);
-    min-width: 2rem;
-    text-align: center;
-    outline: none;
+    @include mixins.button-reset;
+    padding: 0.4rem 0.85rem;
+    border-radius: vars.$radius-sm;
+    border: 1px solid vars.$border;
+    background: vars.$surface;
+    color: vars.$text-primary;
+    font-weight: 600;
+    @include mixins.interactive(background, box-shadow, border-color, color);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
 
     &:hover {
-      background: #f3f6fc;
-      border-color: #b6cbff;
-      color: #2563eb;
+      background: color.scale(vars.$primary, $lightness: 84%);
+      border-color: vars.$primary;
+      color: vars.$primary;
     }
 
     &:active {
-      background: #e5edfb;
-      box-shadow: none;
-      outline: none;
+      transform: translateY(1px);
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.12);
     }
+  }
 
-    &:focus {
-      outline: none;
-      box-shadow: 0 0 0 2px #b6cbff;
-      border-color: #b6cbff;
+  .remove {
+    background: vars.$secondary;
+    color: #fff;
+    border-color: color.scale(vars.$secondary, $lightness: -5%);
+
+    &:hover {
+      background: color.scale(vars.$secondary, $lightness: -7%);
     }
   }
 
   span {
-    font-size: 14px;
-    min-width: 16px;
+    min-width: 2rem;
     text-align: center;
-    font-weight: 600;
-    color: #2861ad;
-    text-shadow: 0 1px 2px #f0f2fa77;
-  }
-
-  /* دکمه حذف */
-  button:last-child {
-    background: #ff4d4d;
-    color: #fff;
-
-    &:hover {
-      background: #e64545;
-    }
+    font-weight: 700;
+    color: vars.$primary;
   }
 }
 
 .footer {
-  border-top: 1px solid #eee;
-  padding-top: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  font-size: 15px;
-  background: #f9fbfd;
-  border-radius: 8px;
+  border-top: 1px solid vars.$border;
+  padding-top: 1rem;
+  display: grid;
+  gap: 0.85rem;
 
   > div:first-child {
     font-weight: 700;
-    font-size: 16px;
-    color: #1757a6;
+    font-size: 1rem;
+    color: vars.$text-primary;
+  }
+
+  .actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
   }
 
   button {
-    padding: 8px 10px;
-    border-radius: 8px;
-    cursor: pointer;
-    border: none;
-    font-size: 14px;
-    transition: 0.15s ease;
+    @include mixins.button-reset;
+    padding: 0.65rem 1.25rem;
+    border-radius: vars.$radius-sm;
+    font-weight: 600;
+    box-shadow: vars.$shadow-soft;
+    @include mixins.interactive(background, color, box-shadow, transform);
   }
 }
 
 .checkout {
-  background: #0b84ff;
-  color: white;
-  margin-right: 8px;
+  background: vars.$primary;
+  color: #fff;
 
   &:hover {
-    background: #006fe3;
-  }
-
-  &:active {
-    transform: scale(0.97);
+    background: color.scale(vars.$primary, $lightness: -8%);
   }
 }
 
-/* دکمه پاک کردن */
-.footer button:last-child {
-  background: #eee;
+.clear {
+  background: vars.$border;
+  color: vars.$text-primary;
 
   &:hover {
-    background: #ddd;
-  }
-}
-
-/* ریسپانسیو موبایل */
-@media (max-width: 500px) {
-  .cart {
-    right: 10px;
-    bottom: 10px;
-    width: calc(100% - 20px);
+    background: color.scale(vars.$border, $lightness: -6%);
   }
 }

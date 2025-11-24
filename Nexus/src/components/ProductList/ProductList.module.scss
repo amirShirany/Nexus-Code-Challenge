@@ -1,49 +1,71 @@
+@use "../../styles/variables" as vars;
+@use "../../styles/mixins" as mixins;
+
 .container {
-  height: 80vh;
+  height: 82vh;
   overflow-y: auto;
-  padding: 20px;
-  background: #fafafa;
-  border-radius: 12px;
+  background: vars.$bg;
+  border-radius: vars.$radius-lg;
+  padding: clamp(1rem, 2vw, 2rem);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  @include mixins.scrollbar();
 
-  /* اسکرول زیبا */
-  &::-webkit-scrollbar {
-    width: 8px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.18);
-    border-radius: 8px;
+  @include mixins.respond(mobile) {
+    height: auto;
   }
 }
 
 .inner {
-  position: relative;
-  width: 100%;
-}
-
-.row {
-  position: absolute;
-  top: 0;
-  left: 0;
-
-  width: 100%;
-  padding-bottom: 16px;
-
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
-.loader {
-  padding: 20px;
-  text-align: center;
-  font-size: 14px;
-  color: #555;
+.grid {
+  display: grid;
+  gap: clamp(1rem, 2vw, 1.75rem);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+
+  @include mixins.respond(desktop) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  @include mixins.respond(laptop) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include mixins.respond(mobile) {
+    grid-template-columns: 1fr;
+  }
 }
 
-.loadingMore {
+.cardShell {
+  background: vars.$surface;
+  border-radius: vars.$radius;
+  box-shadow: vars.$shadow-soft;
+  height: 100%;
+  @include mixins.interactive(transform, box-shadow);
+
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: vars.$shadow-card;
+  }
+}
+
+.loader,
+.empty {
+  padding: 2rem;
   text-align: center;
-  padding: 20px 0;
-  color: #666;
-  font-size: 15px;
-  font-weight: 500;
+  font-weight: 600;
+  color: vars.$text-muted;
+}
+
+.loadMore {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 1.5rem 0;
+  color: vars.$text-primary;
+  font-weight: 600;
 }
