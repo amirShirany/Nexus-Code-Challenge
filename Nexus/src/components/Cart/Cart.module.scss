@@ -137,12 +137,14 @@
   }
 
   .remove {
-    background: vars.$secondary;
-    color: #fff;
+    background-color: #fff;
+    color: color.scale(vars.$secondary);
     border-color: color.scale(vars.$secondary, $lightness: -5%);
 
     &:hover {
-      background: color.scale(vars.$secondary, $lightness: -7%);
+      background: vars.$secondary;
+      color: #fff;
+      border-color: color.scale(vars.$secondary, $lightness: -5%);
     }
   }
 
@@ -187,6 +189,7 @@
   color: #fff;
 
   &:hover {
+    color: #fff;
     background: color.scale(vars.$primary, $lightness: -8%);
   }
 }

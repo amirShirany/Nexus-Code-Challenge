@@ -17,7 +17,7 @@ export default function Cart({ mode = "floating" }: CartProps) {
 
   return (
     <aside className={containerClass}>
-      <h3>سبد خرید ({items.length})</h3>
+      <h3>سبد خرید شما ({items.length}) نوع کالا دارد</h3>
       <div className={styles.items}>
         {items.map((it) => (
           <div key={it.id} className={styles.item}>
@@ -42,7 +42,7 @@ export default function Cart({ mode = "floating" }: CartProps) {
         <div>مجموع: ${totalPrice.toFixed(2)}</div>
         <div className={styles.actions}>
           <button
-            onClick={() => alert("پرداخت (شبیه‌سازی)")}
+            onClick={() => alert("پرداخت شد!")}
             className={styles.checkout}>
             تسویه حساب
           </button>

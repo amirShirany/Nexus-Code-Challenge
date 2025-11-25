@@ -34,7 +34,7 @@ export default function ProductList() {
   }, [fetchNextPage, hasNextPage, isFetchingNextPage])
 
   if (error) {
-    return <div className={styles.loader}>خطا در بارگذاری اطلاعات</div>
+    return <div className={styles.loader}>خطا در بارگذاری اطلاعات!</div>
   }
 
   if (!data || !allItems.length) {
