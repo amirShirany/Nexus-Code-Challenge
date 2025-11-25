@@ -28,9 +28,9 @@ export default function App() {
               سبد خرید
             </NavLink>
             <span className={styles.cartButton}>
-               اطلاعات سبد خرید
+               اطلاعات خرید
               <span className={styles.badge}>{totalCount}</span>
-              <span>${totalPrice.toFixed(2)} : مبلغ</span>
+              <span>${totalPrice.toFixed(2)} : مبلغ پرداختی</span>
             </span>
           </nav>
         </header>

@@ -15,7 +15,7 @@ export default function CartPage() {
           <h2>سبد خرید Nexus</h2>
           <p className={styles.copy}>
             هر محصولی که انتخاب کرده‌اید اینجاست؛ تعداد و مبلغ نهایی را بررسی
-            کنید و در صورت نیاز تغییر دهید.
+            کنید و در صورت نیاز تغییر دهید
           </p>
           <div className={styles.stats}>
             <div className={styles.statItem}>

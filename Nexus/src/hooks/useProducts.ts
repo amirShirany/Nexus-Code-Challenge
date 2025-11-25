@@ -5,7 +5,6 @@ import api from "../api/axios";
 const PAGE_SIZE = 6;
 
 async function fetchProducts({ pageParam = 0 }: { pageParam?: number }): Promise<Product[]> {
-    // fakestoreapi pagination واقعی ندارد → کل را می‌گیریم و صفحه‌بندی می‌کنیم
     const res = await api.get<Product[]>("/products");
 
     const start = pageParam * PAGE_SIZE;
