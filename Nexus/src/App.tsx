@@ -1,8 +1,8 @@
-import { NavLink, Route, Routes } from "react-router-dom"
 import styles from "./App.module.scss"
+import { NavLink, Route, Routes } from "react-router-dom"
+import { useCart } from "./store/useCart"
 import CartPage from "./pages/CartPage/CartPage"
 import ProductPage from "./pages/ProductPage/ProductPage"
-import { useCart } from "./store/useCart"
 
 export default function App() {
   const totalCount = useCart((s) => s.totalCount())
@@ -28,7 +28,7 @@ export default function App() {
               سبد خرید
             </NavLink>
             <span className={styles.cartButton}>
-               اطلاعات خرید
+              اطلاعات خرید
               <span className={styles.badge}>{totalCount}</span>
               <span>${totalPrice.toFixed(2)} : مبلغ پرداختی</span>
             </span>

@@ -1,5 +1,5 @@
-import { useCart } from "../../store/useCart"
 import styles from "./Cart.module.scss"
+import { useCart } from "../../store/useCart"
 
 type CartProps = {
   mode?: "floating" | "page"
@@ -39,7 +39,7 @@ export default function Cart({ mode = "floating" }: CartProps) {
       </div>
 
       <div className={styles.footer}>
-        <div>مجموع: ${totalPrice.toFixed(2)}</div>
+        <div className={styles.total}>مجموع: ${totalPrice.toFixed(2)}</div>
         <div className={styles.actions}>
           <button
             onClick={() => alert("پرداخت شد!")}

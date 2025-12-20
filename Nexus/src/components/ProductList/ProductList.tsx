@@ -1,10 +1,10 @@
+import styles from "./ProductList.module.scss"
 import { useEffect, useRef } from "react"
+import { useProducts } from "../../hooks/useProducts"
+import { CSSTransition, TransitionGroup } from "react-transition-group"
 import type { Product } from "../../types/product"
 import type { InfiniteData } from "@tanstack/react-query"
-import { CSSTransition, TransitionGroup } from "react-transition-group"
-import { useProducts } from "../../hooks/useProducts"
 import ProductCard from "../ProductCard/ProductCard"
-import styles from "./ProductList.module.scss"
 
 export default function ProductList() {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, error } =
